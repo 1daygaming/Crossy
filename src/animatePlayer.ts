@@ -1,15 +1,19 @@
 import * as THREE from "three";
-import {
-  player,
-  position,
-  movesQueue,
-  stepCompleted,
-} from "./components/Player";
-import { tileSize } from "./constants";
+// import {
+//   player,
+//   position,
+//   movesQueue,
+//   stepCompleted,
+// } from "./components/Player";
+// import { tileSize } from "./constants";
 
-const moveClock = new THREE.Clock(false);
+// const moveClock = new THREE.Clock(false);
 
 export function animatePlayer() {
+  // Логика анимации игрока на клиенте временно отключена,
+  // так как позиция теперь управляется сервером.
+  // Позже здесь можно будет добавить интерполяцию для плавного движения.
+  /*
   if (!movesQueue.length) return;
 
   if (!moveClock.running) moveClock.start();
@@ -25,8 +29,10 @@ export function animatePlayer() {
     stepCompleted();
     moveClock.stop();
   }
+  */
 }
 
+/*
 function setPosition(progress: number) {
   const startX = position.currentTile * tileSize;
   const startY = position.currentRow * tileSize;
@@ -56,3 +62,4 @@ function setRotation(progress: number) {
     progress
   );
 }
+*/

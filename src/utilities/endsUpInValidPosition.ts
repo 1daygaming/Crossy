@@ -1,7 +1,7 @@
 import type { MoveDirection } from "../types";
 import { calculateFinalPosition } from "./calculateFinalPosition";
 import { minTileIndex, maxTileIndex } from "../constants";
-import { metadata as rows } from "../components/Map";
+// import { metadata as rows } from "../components/Map"; // Закомментировано, так как metadata больше нет
 
 export function endsUpInValidPosition(
   currentPosition: { rowIndex: number; tileIndex: number },
@@ -24,6 +24,10 @@ export function endsUpInValidPosition(
   }
 
   // Detect if we hit a tree
+  // Логика проверки столкновения с деревьями временно отключена,
+  // так как rows (metadata) больше не доступны на клиенте в таком виде.
+  // Эту проверку нужно будет делать на сервере.
+  /*
   const finalRow = rows[finalPosition.rowIndex - 1];
   if (
     finalRow &&
@@ -35,6 +39,7 @@ export function endsUpInValidPosition(
     // Invalid move, ignore move command
     return false;
   }
+  */
 
   return true;
 }

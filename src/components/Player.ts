@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import type { MoveDirection } from "../types";
-import { metadata as rows, addRows } from "./Map";
 import { endsUpInValidPosition } from "../utilities/endsUpInValidPosition";
 
 export const player = Player();
@@ -69,55 +68,53 @@ function Player() {
     
       return playerContainer;
   }
-  export const position: {
-    currentRow: number;
-    currentTile: number;
-  } = {
-    currentRow: 0,
-    currentTile: 0,
-  };
-  
-  export const movesQueue: MoveDirection[] = [];
-  
-  export function initializePlayer() {
-    // Initialize the Three.js player object
-    player.position.x = 0;
-    player.position.y = 0;
-    player.children[0].position.z = 0;
-  
-    // Initialize metadata
-    position.currentRow = 0;
-    position.currentTile = 0;
-  
-    // Clear the moves queue
-    movesQueue.length = 0;
-  }
-  
-  export function queueMove(direction: MoveDirection) {
-    const isValidMove = endsUpInValidPosition(
-      {
-        rowIndex: position.currentRow,
-        tileIndex: position.currentTile,
-      },
-      [...movesQueue, direction]
-    );
-  
-    if (!isValidMove) return;
-  
-    movesQueue.push(direction);
-  }
-  
-  export function stepCompleted() {
-    const direction = movesQueue.shift();
-  
-    if (direction === "forward") position.currentRow += 1;
-    if (direction === "backward") position.currentRow -= 1;
-    if (direction === "left") position.currentTile -= 1;
-    if (direction === "right") position.currentTile += 1;
-  
-    // Add new rows if the player is running out of them
-    if (position.currentRow > rows.length - 10) addRows();
-  
-    const scoreDOM = document.getElementById("score");
-    if (scoreDOM) scoreDOM.innerText = position.currentRow.toString();
-  }
+
+export const position: {
+  currentRow: number;
+  currentTile: number;
+} = {
+  currentRow: 0,
+  currentTile: 0,
+};
+
+export const movesQueue: MoveDirection[] = [];
+
+export function initializePlayer() {
+  // Initialize the Three.js player object
+  player.position.x = 0;
+  player.position.y = 0;
+  player.children[0].position.z = 0;
+
+  // Initialize metadata
+  position.currentRow = 0;
+  position.currentTile = 0;
+
+  // Clear the moves queue
+  movesQueue.length = 0;
+}
+
+export function queueMove(direction: MoveDirection) {
+  const isValidMove = endsUpInValidPosition(
+    {
+      rowIndex: position.currentRow,
+      tileIndex: position.currentTile,
+    },
+    [...movesQueue, direction]
+  );
+
+  if (!isValidMove) return;
+
+  movesQueue.push(direction);
+}
+
+export function stepCompleted() {
+  const direction = movesQueue.shift();
+
+  if (direction === "forward") position.currentRow += 1;
+  if (direction === "backward") position.currentRow -= 1;
+  if (direction === "left") position.currentTile -= 1;
+  if (direction === "right") position.currentTile += 1;
+
+  const scoreDOM = document.getElementById("score");
+  if (scoreDOM) scoreDOM.innerText = position.currentRow.toString();
+}

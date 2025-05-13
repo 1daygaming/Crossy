@@ -1,33 +1,43 @@
-import { queueMove } from "./components/Player";
+import { gameRoom } from "./main"; // Импортируем gameRoom из того же каталога
+
+function sendMoveCommand(direction: string) {
+  if (gameRoom) {
+    gameRoom.send("move", { direction });
+  } else {
+    console.warn("Game room not available to send move command.");
+  }
+}
 
 document
   .getElementById("forward")
-  ?.addEventListener("click", () => queueMove("forward"));
+  ?.addEventListener("click", () => sendMoveCommand("forward"));
 
 document
   .getElementById("backward")
-  ?.addEventListener("click", () => queueMove("backward"));
+  ?.addEventListener("click", () => sendMoveCommand("backward"));
 
 document
   .getElementById("left")
-  ?.addEventListener("click", () => queueMove("left"));
+  ?.addEventListener("click", () => sendMoveCommand("left"));
 
 document
   .getElementById("right")
-  ?.addEventListener("click", () => queueMove("right"));
+  ?.addEventListener("click", () => sendMoveCommand("right"));
 
 window.addEventListener("keydown", (event) => {
+  let direction: string | null = null;
   if (event.key === "ArrowUp") {
-    event.preventDefault(); // Avoid scrolling the page
-    queueMove("forward");
+    direction = "forward";
   } else if (event.key === "ArrowDown") {
-    event.preventDefault(); // Avoid scrolling the page
-    queueMove("backward");
+    direction = "backward";
   } else if (event.key === "ArrowLeft") {
-    event.preventDefault(); // Avoid scrolling the page
-    queueMove("left");
+    direction = "left";
   } else if (event.key === "ArrowRight") {
+    direction = "right";
+  }
+
+  if (direction) {
     event.preventDefault(); // Avoid scrolling the page
-    queueMove("right");
+    sendMoveCommand(direction);
   }
 });
